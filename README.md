@@ -70,7 +70,6 @@ VITE_SOCKET_URL=http://localhost:5000
 Create a `.env` file in the `server` directory:
 ```env
 PORT=5000
-MONGODB_URI=your_mongodb_connection_string
 SUPABASE_URL=your_supabase_url
 SUPABASE_KEY=your_supabase_anon_key
 ```
