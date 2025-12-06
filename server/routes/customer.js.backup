@@ -1,0 +1,589 @@
+const express = require('express');
+const router = express.Router();
+const { supabase } = require('../utils/supabase');
+
+// Helper function untuk generate queue number
+const generateQueueNumber = async (order) => {
+  return `A${String(order).padStart(2, '0')}`;
+};
+
+// Helper function untuk mendapatkan tanggal hari ini
+const getTodayDate = () => {
+  return new Date().toISOString().split('T')[0];
+};
+
+// Helper function untuk ensure daily reset
+const ensureDailyReset = async () => {
+  try {
+    const today = getTodayDate();
+
+    // Check if counter exists for today
+    const { data: counter, error } = await supabase
+      .from('queue_counters')
+      .select('*')
+      .eq('date', today)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      throw error;
+    }
+
+    if (!counter) {
+      // Create new counter for today
+      const { data: newCounter, error: insertError } = await supabase
+        .from('queue_counters')
+        .insert({
+          date: today,
+          counter: 0,
+          last_reset: new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (insertError) throw insertError;
+      return newCounter;
+    }
+
+    return counter;
+  } catch (error) {
+    console.error('Error in daily reset check:', error);
+    throw error;
+  }
+};
+
+// Helper function untuk cleanup old queues
+const cleanupOldQueues = async () => {
+  try {
+    const today = getTodayDate();
+
+    // Update old queues to completed
+    const { error } = await supabase
+      .from('customers')
+      .update({ status: 'completed' })
+      .lt('date', today)
+      .in('status', ['waiting', 'processing']);
+
+    if (error) throw error;
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error in cleanup:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Create new customer queue
+router.post('/queue', async (req, res) => {
+  try {
+    const { name, phone, service } = req.body;
+
+    if (!name || !service) {
+      return res.status(400).json({
+        success: false,
+        message: 'Name and service are required'
+      });
+    }
+
+    // Ensure daily reset and cleanup
+    let queueCounter = await ensureDailyReset();
+    await cleanupOldQueues();
+
+    // Increment counter
+    const { data: updatedCounter, error: counterError } = await supabase
+      .from('queue_counters')
+      .update({ counter: queueCounter.counter + 1 })
+      .eq('date', queueCounter.date)
+      .select()
+      .single();
+
+    if (counterError) throw counterError;
+
+    const queueOrder = updatedCounter.counter;
+    const queueNumber = await generateQueueNumber(queueOrder);
+
+    // Create customer
+    const { data: customer, error: customerError } = await supabase
+      .from('customers')
+      .insert({
+        name: name.trim(),
+        phone: phone ? phone.trim() : null,
+        service,
+        queue_number: queueNumber,
+        queue_order: queueOrder,
+        date: getTodayDate(),
+        status: 'waiting'
+      })
+      .select()
+      .single();
+
+    if (customerError) throw customerError;
+
+    // Emit WebSocket events
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('new-queue', {
+        customer: customer,
+        message: `New queue created: ${queueNumber}`
+      });
+
+      // Get total waiting
+      const { count } = await supabase
+        .from('customers')
+        .select('*', { count: 'exact', head: true })
+        .eq('date', getTodayDate())
+        .eq('status', 'waiting');
+
+      io.emit('queue-update', {
+        action: 'created',
+        customer: customer,
+        totalWaiting: count || 0
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      data: {
+        queueNumber,
+        name: customer.name,
+        service: customer.service,
+        queueOrder: customer.queue_order
+      }
+    });
+
+  } catch (error) {
+    console.error('Error creating queue:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Get all customers for today
+router.get('/today', async (req, res) => {
+  try {
+    const today = getTodayDate();
+
+    const { data: customers, error } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('date', today)
+      .order('queue_order', { ascending: true });
+
+    if (error) throw error;
+
+    res.json({
+      success: true,
+      data: customers || []
+    });
+
+  } catch (error) {
+    console.error('Error fetching today customers:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Get customer by queue number
+router.get('/queue/:queueNumber', async (req, res) => {
+  try {
+    const { queueNumber } = req.params;
+
+    const { data: customer, error } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('queue_number', queueNumber)
+      .single();
+
+    if (error && error.code === 'PGRST116') {
+      return res.status(404).json({
+        success: false,
+        message: 'Customer not found'
+      });
+    }
+
+    if (error) throw error;
+
+    res.json({
+      success: true,
+      data: customer
+    });
+
+  } catch (error) {
+    console.error('Error fetching customer:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Teller: Call next customer
+router.post('/call-next', async (req, res) => {
+  try {
+    const { tellerId } = req.body;
+    const io = req.app.get('io');
+    const today = getTodayDate();
+
+    // Find next waiting customer
+    const { data: nextCustomer, error } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('date', today)
+      .eq('status', 'waiting')
+      .eq('is_expired', false)
+      .order('queue_order', { ascending: true })
+      .limit(1)
+      .single();
+
+    if (error && error.code === 'PGRST116') {
+      return res.status(404).json({
+        success: false,
+        message: 'No waiting customers'
+      });
+    }
+
+    if (error) throw error;
+
+    // Update customer status to processing
+    const { data: updatedCustomer, error: updateError } = await supabase
+      .from('customers')
+      .update({
+        status: 'processing',
+        teller_id: tellerId,
+        processing_start_time: new Date().toISOString()
+      })
+      .eq('id', nextCustomer.id)
+      .select()
+      .single();
+
+    if (updateError) throw updateError;
+
+    // Emit WebSocket events
+    if (io) {
+      io.emit('customer-called', {
+        customer: updatedCustomer,
+        tellerId: tellerId,
+        message: `Calling ${updatedCustomer.queue_number} to teller ${tellerId}`
+      });
+
+      const { count } = await supabase
+        .from('customers')
+        .select('*', { count: 'exact', head: true })
+        .eq('date', today)
+        .eq('status', 'waiting');
+
+      io.emit('queue-update', {
+        action: 'called',
+        customer: updatedCustomer,
+        tellerId: tellerId,
+        totalWaiting: count || 0
+      });
+
+      io.emit('teller-update', {
+        action: 'customer-called',
+        tellerId: tellerId,
+        customer: updatedCustomer,
+        message: `Teller ${tellerId} called customer ${updatedCustomer.queue_number}`
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        customer: updatedCustomer,
+        message: `Calling ${updatedCustomer.queue_number} to teller ${tellerId}`
+      }
+    });
+
+  } catch (error) {
+    console.error('Error calling next customer:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Teller: Complete service
+router.post('/complete-service', async (req, res) => {
+  try {
+    const { queueNumber, tellerId } = req.body;
+    const io = req.app.get('io');
+
+    // Get customer
+    const { data: customer, error: fetchError } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('queue_number', queueNumber)
+      .single();
+
+    if (fetchError && fetchError.code === 'PGRST116') {
+      return res.status(404).json({
+        success: false,
+        message: 'Customer not found'
+      });
+    }
+
+    if (fetchError) throw fetchError;
+
+    if (customer.status !== 'processing') {
+      return res.status(400).json({
+        success: false,
+        message: 'Customer is not being processed'
+      });
+    }
+
+    // Calculate processing time
+    const processingTime = customer.processing_start_time
+      ? Date.now() - new Date(customer.processing_start_time).getTime()
+      : null;
+
+    // Update customer to completed
+    const { data: updatedCustomer, error: updateError } = await supabase
+      .from('customers')
+      .update({
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+        processing_end_time: new Date().toISOString(),
+        processing_time: processingTime
+      })
+      .eq('id', customer.id)
+      .select()
+      .single();
+
+    if (updateError) throw updateError;
+
+    // Emit WebSocket events
+    if (io) {
+      io.emit('service-completed', {
+        customer: updatedCustomer,
+        tellerId: tellerId,
+        message: `Service completed for ${queueNumber}`
+      });
+
+      const { count } = await supabase
+        .from('customers')
+        .select('*', { count: 'exact', head: true })
+        .eq('date', getTodayDate())
+        .eq('status', 'waiting');
+
+      io.emit('queue-update', {
+        action: 'completed',
+        customer: updatedCustomer,
+        tellerId: tellerId,
+        totalWaiting: count || 0
+      });
+
+      io.emit('teller-update', {
+        action: 'service-completed',
+        tellerId: tellerId,
+        customer: updatedCustomer,
+        message: `Teller ${tellerId} completed service for ${queueNumber}`
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        customer: updatedCustomer,
+        message: `Service completed for ${queueNumber}`
+        action: 'created',
+        totalWaiting: count || 0
+      });
+  }
+
+    res.status(201).json({
+    success: true,
+    data: {
+      message: `Created ${createdCustomers.length} fake queues successfully`,
+      customers: createdCustomers.map(c => ({
+        queueNumber: c.queue_number,
+        name: c.name,
+        service: c.service
+      }))
+    }
+  });
+
+} catch (error) {
+  console.error('Error creating fake queues:', error);
+  res.status(500).json({
+    success: false,
+    message: 'Internal server error'
+  });
+}
+});
+
+// Get teller's current customer
+router.get('/teller/:tellerId/current', async (req, res) => {
+  try {
+    const { tellerId } = req.params;
+    const today = getTodayDate();
+
+    const { data: currentCustomer, error } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('date', today)
+      .eq('teller_id', tellerId)
+      .eq('status', 'processing')
+      .single();
+
+    if (error && error.code === 'PGRST116') {
+      return res.json({
+        success: true,
+        data: { currentCustomer: null }
+      });
+    }
+
+    if (error) throw error;
+
+    res.json({
+      success: true,
+      data: { currentCustomer }
+    });
+
+  } catch (error) {
+    console.error('Error fetching current customer:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Get next customers
+router.get('/teller/next-customers', async (req, res) => {
+  try {
+    const { limit = 5 } = req.query;
+    const today = getTodayDate();
+
+    const { data: nextCustomers, error } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('date', today)
+      .eq('status', 'waiting')
+      .eq('is_expired', false)
+      .order('queue_order', { ascending: true })
+      .limit(parseInt(limit));
+
+    if (error) throw error;
+
+    const { count } = await supabase
+      .from('customers')
+      .select('*', { count: 'exact', head: true })
+      .eq('date', today)
+      .eq('status', 'waiting')
+      .eq('is_expired', false);
+
+    res.json({
+      success: true,
+      data: {
+        nextCustomers: nextCustomers || [],
+        totalWaiting: count || 0
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching next customers:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Get stats
+router.get('/stats', async (req, res) => {
+  try {
+    const today = getTodayDate();
+
+    const { data: customers, error } = await supabase
+      .from('customers')
+      .select('status')
+      .eq('date', today);
+
+    if (error) throw error;
+
+    const stats = {
+      waiting: 0,
+      processing: 0,
+      completed: 0
+    };
+
+    customers.forEach(c => {
+      stats[c.status] = (stats[c.status] || 0) + 1;
+    });
+
+    res.json({
+      success: true,
+      data: {
+        total: customers.length,
+        stats
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching stats:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+// Reset counter
+router.post('/reset-counter', async (req, res) => {
+  try {
+    const today = getTodayDate();
+
+    const { data: counter, error: fetchError } = await supabase
+      .from('queue_counters')
+      .select('*')
+      .eq('date', today)
+      .single();
+
+    if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+
+    if (counter) {
+      // Update existing
+      const { error: updateError } = await supabase
+        .from('queue_counters')
+        .update({
+          counter: 0,
+          last_reset: new Date().toISOString()
+        })
+        .eq('date', today);
+
+      if (updateError) throw updateError;
+    } else {
+      // Create new
+      const { error: insertError } = await supabase
+        .from('queue_counters')
+        .insert({
+          date: today,
+          counter: 0,
+          last_reset: new Date().toISOString()
+        });
+
+      if (insertError) throw insertError;
+    }
+
+    res.json({
+      success: true,
+      data: {
+        message: 'Queue counter reset successfully'
+      }
+    });
+
+  } catch (error) {
+    console.error('Error resetting counter:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+module.exports = router;

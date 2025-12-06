@@ -1,0 +1,1190 @@
+/* ===================================
+   BASE CONTAINER STYLES
+   =================================== */
+
+.queue-container {
+  min-height: 100vh;
+  background: #F9FAFB;
+  padding-bottom: 80px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: relative;
+}
+
+.queue-form-wrapper-full {
+  min-height: calc(100vh - 80px);
+  background: white;
+  padding: 2rem 1.25rem;
+}
+
+/* ===================================
+   TYPOGRAPHY - FORM SCREEN
+   =================================== */
+
+.queue-title-large {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.queue-description-gray {
+  color: #6B7280;
+  font-size: 0.9375rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  margin-top: 0;
+}
+
+/* ===================================
+   FORM ELEMENTS
+   =================================== */
+
+.form-content {
+  max-width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label-dark {
+  display: block;
+  color: #1F2937;
+  font-weight: 600;
+  margin-bottom: 0.625rem;
+  font-size: 0.9375rem;
+}
+
+.optional-text {
+  color: #9CA3AF;
+  font-weight: 400;
+}
+
+.form-input-clean {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  color: #111827;
+  font-family: inherit;
+}
+
+.form-input-clean:focus {
+  border-color: #1E3A8A;
+}
+
+.form-input-clean::placeholder {
+  color: #9CA3AF;
+}
+
+/* ===================================
+   SERVICE OPTIONS
+   =================================== */
+
+.service-option-clean {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.625rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.service-option-clean:hover {
+  border-color: #1E3A8A;
+}
+
+.service-option-clean.selected {
+  border-color: #1E3A8A;
+  background: #EFF6FF;
+}
+
+.service-content-spaced {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.service-info-full {
+  flex: 1;
+}
+
+.service-title-bold {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.service-desc-gray {
+  font-size: 0.8125rem;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+.service-radio-blue {
+  margin-top: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #1E3A8A;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ===================================
+   SUBMIT BUTTON
+   =================================== */
+
+.submit-btn-blue {
+  width: 100%;
+  background: #1E3A8A;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+  font-family: inherit;
+}
+
+.submit-btn-blue:hover:not(:disabled) {
+  background: #1E40AF;
+}
+
+.submit-btn-blue:disabled {
+  background: #9CA3AF;
+  cursor: not-allowed;
+}
+
+/* ===================================
+   QUEUE TICKET SCREEN
+   =================================== */
+
+.queue-screen {
+  min-height: 100vh;
+  background: #F9FAFB;
+  padding-bottom: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.queue-content-centered {
+  background: transparent;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  max-width: 100%;
+  width: 100%;
+}
+
+.ticket-icon-large {
+  width: 5.5rem;
+  height: 5.5rem;
+  background: #E0E7FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+}
+
+.queue-welcome-large {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.queue-info-large {
+  color: #6B7280;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  margin-top: 0;
+}
+
+/* ===================================
+   QUEUE CARD
+   =================================== */
+
+.queue-card-large {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.queue-reason-centered {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.queue-reason-label-gray {
+  color: #9CA3AF;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  margin-top: 0;
+}
+
+.queue-reason-title-large {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.divider-dashed {
+  border-top: 1px dashed #D1D5DB;
+  margin: 1.5rem 0;
+}
+
+.queue-number-container-clean {
+  background: transparent;
+  border-radius: 0.75rem;
+  padding: 1rem 0;
+}
+
+.queue-system-number-blue {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  font-family: "SF Pro Display", -apple-system, sans-serif;
+  letter-spacing: 2px;
+  line-height: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Skip Badge in Queue System */
+.skip-badge-queue {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #FEF3C7;
+  color: #D97706;
+  border: 2px solid #FDE68A;
+  letter-spacing: 0;
+  margin-left: 0.5rem;
+}
+
+.skip-badge-queue.warning {
+  background: #FEE2E2;
+  color: #DC2626;
+  border: 2px solid #FECACA;
+  animation: pulse-warning 2s infinite;
+}
+
+/* Skip Warning Message */
+.skip-warning-queue {
+  background: #FEF3C7;
+  color: #D97706;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid #FDE68A;
+  animation: pulse-warning 2s infinite;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Skip Info Small Text */
+.skip-info-small {
+  font-size: 0.8rem;
+  color: #9CA3AF;
+  margin-top: 0.375rem;
+  font-style: normal;
+}
+
+@keyframes pulse-warning {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ===================================
+   STATUS INDICATORS
+   =================================== */
+
+.queue-status-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #F9FAFB;
+  border-radius: 0.75rem;
+  border: 2px solid #E5E7EB;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.queue-status-section.status-waiting {
+  background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+  border: 2px solid #D1D5DB;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.queue-status-section.status-processing {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border: 2px solid #F59E0B;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+}
+
+.queue-status-section.status-completed {
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+  border: 2px solid #10B981;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+}
+
+/* Subtle pattern for waiting status */
+.queue-status-section.status-waiting::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(156, 163, 175, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(156, 163, 175, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(156, 163, 175, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.status-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6B7280;
+  animation: pulse 2s infinite;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.status-dot.waiting {
+  background: linear-gradient(135deg, #6B7280, #9CA3AF);
+  animation: pulse 2s infinite, breathe 3s ease-in-out infinite;
+}
+
+.status-dot.waiting::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6B7280, #9CA3AF);
+  opacity: 0.3;
+  animation: ripple 2s infinite;
+  z-index: -1;
+}
+
+.status-dot.processing {
+  background: linear-gradient(135deg, #F59E0B, #FBBF24);
+  animation: pulse 1s infinite, glow 1.5s ease-in-out infinite;
+}
+
+.status-dot.completed {
+  background: linear-gradient(135deg, #10B981, #34D399);
+  animation: none;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+.status-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.status-waiting .status-text {
+  color: #4B5563;
+}
+
+.status-processing .status-text {
+  color: #92400E;
+}
+
+.status-completed .status-text {
+  color: #065F46;
+}
+
+.processing-indicator {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #FDE68A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #B45309;
+  font-weight: 600;
+}
+
+.waiting-indicator {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #6B7280;
+  font-style: italic;
+}
+
+.waiting-indicator .waiting-icon {
+  animation: pulse 2s infinite;
+  font-size: 1rem;
+}
+
+.pulse-icon {
+  animation: pulse 1.5s infinite;
+}
+
+/* ===================================
+   NOTIFICATION BOX
+   =================================== */
+
+.notification-box {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification-box.processing {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border: 2px solid #F59E0B;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.25);
+}
+
+.notification-box.completed {
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+  border: 2px solid #10B981;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+}
+
+.notification-icon {
+  position: absolute;
+  top: 0.75rem;
+  left: 1rem;
+  font-size: 1.5rem;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notification-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notification-box.processing .notification-title {
+  color: #92400E;
+}
+
+.notification-box.completed .notification-title {
+  color: #065F46;
+}
+
+.notification-message {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.notification-box.processing .notification-message {
+  color: #B45309;
+}
+
+.notification-box.completed .notification-message {
+  color: #047857;
+}
+
+.notification-subtitle {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.notification-box.processing .notification-subtitle {
+  color: #B45309;
+}
+
+.notification-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #F59E0B, #FBBF24, #F59E0B);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ===================================
+   INFO BOX
+   =================================== */
+
+.info-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #EFF6FF;
+  border-radius: 0.5rem;
+  border: 1px solid #DBEAFE;
+  text-align: center;
+}
+
+.info-box p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+.info-subtitle {
+  font-size: 0.8rem;
+  color: #9CA3AF;
+}
+
+/* ===================================
+   BOTTOM NAVIGATION
+   =================================== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.75rem 0;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.2s;
+}
+
+.nav-item.active .nav-label {
+  color: #1E3A8A;
+  font-weight: 600;
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  color: #6B7280;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+/* ===================================
+   DISPLAY TAB - MOBILE
+   =================================== */
+
+.display-wrapper {
+  min-height: 100vh;
+  background: #F9FAFB;
+  padding-bottom: 80px;
+}
+
+.display-header-mobile {
+  background: white;
+  padding: 1.25rem;
+  border-bottom: 1px solid #E5E7EB;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.display-title-mobile h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.display-time-mobile {
+  font-size: 0.875rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.display-content-mobile {
+  padding: 1rem;
+}
+
+.display-section {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.count-badge {
+  background: #1E3A8A;
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ===================================
+   PROCESSING CARDS
+   =================================== */
+
+.processing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.processing-card {
+  background: #EFF6FF;
+  border: 2px solid #1E3A8A;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.processing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.processing-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1E3A8A;
+  font-family: "Courier New", monospace;
+  letter-spacing: 2px;
+}
+
+.processing-teller {
+  background: #1E3A8A;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.processing-info {
+  border-top: 1px dashed #93C5FD;
+  padding-top: 0.75rem;
+}
+
+.processing-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.processing-service {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+/* ===================================
+   WAITING LIST
+   =================================== */
+
+.waiting-list-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.waiting-card-mobile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  background: #F9FAFB;
+  border-radius: 0.5rem;
+  border: 1px solid #E5E7EB;
+}
+
+.waiting-number-mobile {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  font-family: "Courier New", monospace;
+  min-width: 4rem;
+  text-align: center;
+}
+
+.waiting-info-mobile {
+  flex: 1;
+}
+
+.waiting-name-mobile {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.125rem;
+}
+
+.waiting-service-mobile {
+  font-size: 0.8125rem;
+  color: #6B7280;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #9CA3AF;
+  font-size: 0.9375rem;
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.1;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(245, 158, 11, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+  }
+}
+
+/* ===================================
+   RESPONSIVE - SMALL MOBILE
+   =================================== */
+
+@media (max-width: 380px) {
+  .queue-title-large {
+    font-size: 1.5rem;
+  }
+
+  .queue-description-gray {
+    font-size: 0.875rem;
+  }
+
+  .service-option-clean {
+    padding: 0.875rem;
+  }
+
+  .service-title-bold {
+    font-size: 0.875rem;
+  }
+
+  .service-desc-gray {
+    font-size: 0.75rem;
+  }
+
+  .queue-welcome-large {
+    font-size: 1.75rem;
+  }
+
+  .queue-system-number-blue {
+    font-size: 3.5rem;
+  }
+
+  .ticket-icon-large {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .processing-number {
+    font-size: 1.75rem;
+  }
+
+  .waiting-number-mobile {
+    font-size: 1.125rem;
+    min-width: 3.5rem;
+  }
+}
+
+/* ===================================
+   RESPONSIVE - TABLET
+   =================================== */
+
+@media (min-width: 640px) {
+  .queue-form-wrapper-full {
+    padding: 2.5rem 2rem;
+  }
+
+  .queue-title-large {
+    font-size: 2rem;
+  }
+
+  .form-content {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .queue-content-centered {
+    padding: 3rem 2rem;
+  }
+
+  .queue-welcome-large {
+    font-size: 2.5rem;
+  }
+
+  .queue-system-number-blue {
+    font-size: 5.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .queue-container {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .queue-form-wrapper-full {
+    max-width: 768px;
+    width: 100%;
+    margin: 2rem auto;
+    border-radius: 1rem;
+    min-height: auto;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .queue-title-large {
+    font-size: 2.25rem;
+    text-align: center;
+  }
+
+  .queue-description-gray {
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .form-content {
+    max-width: 600px;
+  }
+
+  .service-option-clean {
+    padding: 1.25rem;
+  }
+
+  .service-title-bold {
+    font-size: 1.0625rem;
+  }
+
+  .service-desc-gray {
+    font-size: 0.875rem;
+  }
+
+  .queue-screen {
+    padding: 2rem 0;
+  }
+
+  .queue-content-centered {
+    max-width: 768px;
+  }
+
+  .queue-welcome-large {
+    font-size: 2.75rem;
+  }
+
+  .queue-card-large {
+    padding: 2.5rem;
+    max-width: 700px;
+  }
+
+  .queue-reason-title-large {
+    font-size: 1.5rem;
+  }
+
+  .queue-system-number-blue {
+    font-size: 6rem;
+  }
+
+  .ticket-icon-large {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .bottom-nav {
+    max-width: 768px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .nav-label {
+    font-size: 0.8125rem;
+  }
+
+  .display-wrapper {
+    padding-bottom: 100px;
+  }
+
+  .display-content-mobile {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .display-header-mobile {
+    padding: 1.5rem;
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  .display-title-mobile h2 {
+    font-size: 1.875rem;
+  }
+
+  .display-time-mobile {
+    font-size: 1rem;
+  }
+
+  .display-section {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .processing-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .processing-card {
+    padding: 1.25rem;
+  }
+
+  .processing-number {
+    font-size: 2.25rem;
+  }
+
+  .processing-name {
+    font-size: 1.125rem;
+  }
+
+  .processing-service {
+    font-size: 1rem;
+  }
+
+  .waiting-list-mobile {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .waiting-card-mobile {
+    padding: 1rem;
+  }
+
+  .waiting-number-mobile {
+    font-size: 1.375rem;
+    min-width: 4.5rem;
+  }
+
+  .waiting-name-mobile {
+    font-size: 1rem;
+  }
+
+  .waiting-service-mobile {
+    font-size: 0.875rem;
+  }
+}
+
+/* ===================================
+   RESPONSIVE - DESKTOP
+   =================================== */
+
+@media (min-width: 1024px) {
+  .queue-form-wrapper-full {
+    max-width: 900px;
+    padding: 3rem;
+  }
+
+  .queue-title-large {
+    font-size: 2.5rem;
+  }
+
+  .form-content {
+    max-width: 700px;
+  }
+
+  .queue-card-large {
+    max-width: 800px;
+  }
+
+  .queue-system-number-blue {
+    font-size: 6.5rem;
+  }
+
+  .display-content-mobile {
+    max-width: 1024px;
+  }
+
+  .display-header-mobile {
+    max-width: 1024px;
+  }
+
+  .processing-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .waiting-list-mobile {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .bottom-nav {
+    max-width: 1024px;
+  }
+}

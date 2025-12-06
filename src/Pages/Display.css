@@ -1,0 +1,497 @@
+/* Display.css - Modern Desktop Queue Display following Queue System design */
+.display-container {
+  min-height: 100vh;
+  background: #F9FAFB;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+/* Header - Modern Clean Design */
+.display-header {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+}
+
+.display-title h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.display-title h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6B7280;
+  margin: 0.25rem 0 0 0;
+  text-transform: uppercase;
+}
+
+.display-time {
+  text-align: right;
+}
+
+.time {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  font-family: "SF Pro Display", -apple-system, sans-serif;
+}
+
+.date {
+  font-size: 1rem;
+  color: #6B7280;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Main Content Area - Focused on Queue Numbers */
+.display-main {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+/* Current Services Grid - Modern Clean Design */
+.current-services-grid {
+  flex: 2;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+}
+
+.tellers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex: 1;
+}
+
+/* Grid yang beradaptasi: 1 teller = 1 kolom, 2-3 tellers = 1 baris, 4+ tellers = 2x2 */
+@media (min-width: 1200px) {
+  .tellers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .tellers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.teller-service-card {
+  background: #EFF6FF;
+  border: 2px solid #1E3A8A;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(30, 58, 138, 0.1);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.teller-service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+}
+
+.teller-id {
+  background: #1E3A8A;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.no-service-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.empty-subtitle {
+  color: #6B7280;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Next Service Section - Modern Design */
+.next-service {
+  flex: 1;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+}
+
+.current-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+.current-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1E3A8A;
+  font-family: "SF Pro Display", -apple-system, sans-serif;
+  letter-spacing: 2px;
+  margin: 0.5rem 0;
+  line-height: 1;
+}
+
+.current-empty {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #9CA3AF;
+  margin: 2rem 0;
+}
+
+.current-details {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px dashed #DBEAFE;
+}
+
+.current-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.current-service {
+  font-size: 0.875rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* Next Service Section - Modern Design */
+.next-service {
+  flex: 1;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+}
+
+.next-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+.next-number {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #1E3A8A;
+  font-family: "SF Pro Display", -apple-system, sans-serif;
+  letter-spacing: 3px;
+  margin: 1rem 0;
+  line-height: 1;
+}
+
+.next-details {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px dashed #DBEAFE;
+}
+
+.next-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.next-empty {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #9CA3AF;
+  margin: 2rem 0;
+}
+
+/* Waiting List Section - Modern Design */
+.waiting-section {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+  margin-bottom: 1.5rem;
+}
+
+.waiting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.waiting-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.waiting-count {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1E3A8A;
+  background: #EFF6FF;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+}
+
+.waiting-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.waiting-item {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.waiting-item:hover {
+  border-color: #1E3A8A;
+  background: #EFF6FF;
+  transform: translateY(-2px);
+}
+
+.waiting-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1E3A8A;
+  font-family: "SF Pro Display", -apple-system, sans-serif;
+  background: #DBEAFE;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  min-width: 3rem;
+  text-align: center;
+}
+
+.waiting-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.waiting-empty {
+  text-align: center;
+  color: #9CA3AF;
+  font-size: 1.1rem;
+  font-style: italic;
+  padding: 2rem;
+}
+
+/* Footer - Modern Design */
+.display-footer {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+}
+
+.footer-message {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.footer-status {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1E3A8A;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-status::before {
+  content: '●';
+  color: #1E3A8A;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .display-main {
+    flex-direction: column;
+  }
+
+  .waiting-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .current-services-grid {
+    flex: none;
+  }
+
+  .next-service {
+    flex: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .display-container {
+    padding: 0.75rem;
+  }
+
+  .display-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .display-title h1 {
+    font-size: 2rem;
+  }
+
+  .display-title h2 {
+    font-size: 1rem;
+  }
+
+  .time {
+    font-size: 1.5rem;
+  }
+
+  .date {
+    font-size: 0.9rem;
+  }
+
+  .current-service,
+  .next-service {
+    padding: 1.5rem;
+  }
+
+  .current-number {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  .next-number {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .current-name {
+    font-size: 0.9rem;
+  }
+
+  .current-service {
+    font-size: 0.8rem;
+  }
+
+  .waiting-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .waiting-item {
+    padding: 0.75rem;
+  }
+
+  .waiting-number {
+    font-size: 1.2rem;
+    min-width: 2.5rem;
+  }
+
+  .waiting-name {
+    font-size: 0.9rem;
+  }
+
+  .display-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-title h1 {
+    font-size: 1.5rem;
+  }
+
+  .current-number {
+    font-size: 1.5rem;
+  }
+
+  .next-number {
+    font-size: 2rem;
+  }
+
+  .waiting-list {
+    grid-template-columns: 1fr;
+  }
+
+  .waiting-section {
+    padding: 1rem;
+  }
+}
